@@ -1,0 +1,6 @@
+CREATE TABLE staff (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    full_name VARCHAR(200) NOT NULL,
+    role VARCHAR(50) NOT NULL
+);

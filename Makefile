@@ -4,7 +4,7 @@ up:
 	docker compose up -d
 
 down:
-	docker compose disown
+	docker compose down
 
 reset:
 	$(DB) < sql/000_reset.sql
@@ -18,3 +18,9 @@ seed:
 
 psql:
 	docker exec -it postgres-db psql -U postgres -d hospital_db
+
+exec:
+	docker exec -i postgres-db psql -U postgres -d hospital_db
+
+run:
+	$(DB) < $(f)

@@ -4,3 +4,4 @@ CREATE TABLE patients (
     last_name VARCHAR(100),
     age INTEGER
 );
+

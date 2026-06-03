@@ -6,3 +6,4 @@ INSERT INTO patients (
 VALUES
 ('John', 'Doe', 25),
 ('Jane', 'Smith', 30);
+

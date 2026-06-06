@@ -6,4 +6,4 @@ INSERT INTO patients_2 (
 VALUES
 ('ผู้ป่วยหนึ่ง', 'รายที่หนึ่ง', 20);
 
-SELECT * FROM patients_2 ===
+SELECT * FROM patients_2

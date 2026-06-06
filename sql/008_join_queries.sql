@@ -3,6 +3,7 @@ FROM queues
 INNER JOIN patients
 ON queues.patient_id = patients.id;
 
+
 SELECT queue_number, first_name, full_name
 FROM queues
 INNER JOIN patients
@@ -18,10 +19,12 @@ ON queues.patient_id = patients.id
 LEFT JOIN staff
 ON queues.staff_id = staff.id;
 
+
 SELECT queue_number, first_name
 FROM queues
 FULL OUTER JOIN patients
 ON queues.patient_id = patients.id;
+
 
 SELECT * FROM patients ORDER BY id ASC;
 

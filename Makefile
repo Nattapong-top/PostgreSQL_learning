@@ -24,3 +24,9 @@ exec:
 
 run:
 	$(DB) < $(f)
+
+reset2:
+	$(DB) < sql_2/000_reset.sql
+
+seed2:
+	$(DB) < sql_2/001_create_table.sql

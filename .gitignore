@@ -1,1 +1,4 @@
 .idea/
+mini_hospital_pg_&_py/src/domain/__pycache__/
+mini_hospital_pg_&_py/src/repository/__pycache__/
+mini_hospital_pg_&_py/.env

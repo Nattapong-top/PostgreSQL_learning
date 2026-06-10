@@ -10,10 +10,11 @@ class QueueID(BaseID):
 
 
 class QueueStatus(Enum):
-    waiting = 'waiting'
-    in_progress = 'in_progress'
-    complete = 'complete'
-    canceled = 'canceled'
+    waiting = "waiting"
+    in_progress = "in_progress"
+    complete = "complete"
+    canceled = "canceled"
+
 
 class Queue(DomainModel):
     id: QueueID = Field(default_factory=QueueID)

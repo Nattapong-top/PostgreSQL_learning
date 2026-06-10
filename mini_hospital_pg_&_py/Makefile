@@ -19,3 +19,11 @@ seed:
 
 py_run:
 	python src/main.py
+
+check:
+	ruff check .
+	black --check .
+
+fix:
+	ruff check . --fix
+	black .

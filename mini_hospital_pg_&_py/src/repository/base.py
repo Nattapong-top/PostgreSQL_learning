@@ -10,7 +10,7 @@ class PatientABC(ABC):
         pass
 
     @abstractmethod
-    def find_by_patient_id(self, patient_id: int) -> Patient | None:
+    def find_by_patient_id(self, patient_id: PatientID) -> Patient | None:
         pass
 
     @abstractmethod
@@ -24,6 +24,7 @@ class PatientABC(ABC):
     @abstractmethod
     def remove_patient(self, patient_id: PatientID) -> None:
         pass
+
 
 class QueueABC(ABC):
     @abstractmethod

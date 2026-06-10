@@ -42,25 +42,30 @@ class PatientRepo(PatientABC):
         with psycopg2.connect(**self.db_config) as conn:
             with conn.cursor() as cur:
                 cur.execute(self.AUTO_CREATE_PATIENT_TABLE)
-                print('created patient table successfully')
+                print("created patient table successfully")
 
     def add_patient(self, patient: Patient) -> None:
         try:
             with psycopg2.connect(**self.db_config) as conn:
                 with conn.cursor() as cur:
-                    cur.execute(self.INSERT_INTO_PATIENT,
-                                (str(patient.id.id), patient.first_name.value, patient.last_name.value,
-                                 patient.age.value))
-                    print(f'added patient {patient.first_name.value} successfully')
+                    cur.execute(
+                        self.INSERT_INTO_PATIENT,
+                        (
+                            str(patient.id.id),
+                            patient.first_name.value,
+                            patient.last_name.value,
+                            patient.age.value,
+                        ),
+                    )
+                    print(f"added patient {patient.first_name.value} successfully")
         except Exception as err:
-            print(f'failed to add patient {patient.first_name.value} to patient table')
-            print(f'error: {err}')
+            print(f"failed to add patient {patient.first_name.value} to patient table")
+            print(f"error: {err}")
 
     def find_by_patient_id(self, patient_id: PatientID) -> Patient | None:
         with psycopg2.connect(**self.db_config) as conn:
             with conn.cursor() as cur:
-                cur.execute(self.SELECT_PATIENT_ID, (str(patient_id.id),)
-                            )
+                cur.execute(self.SELECT_PATIENT_ID, (str(patient_id.id),))
                 patient = cur.fetchone()
 
                 if not patient:
@@ -71,7 +76,7 @@ class PatientRepo(PatientABC):
                     id=PatientID(id=p_id),
                     first_name=Name(value=first_name),
                     last_name=Name(value=last_name),
-                    age=Age(value=age)
+                    age=Age(value=age),
                 )
 
                 return patient_entity
@@ -79,9 +84,9 @@ class PatientRepo(PatientABC):
     def update_patient(self, patient: Patient) -> None:
 
         data = (
-            str(patient.first_name.value),
-            str(patient.last_name.value),
-            str(patient.age.value),
+            patient.first_name.value,
+            patient.last_name.value,
+            patient.age.value,
             str(patient.id.id),
         )
 
@@ -89,20 +94,22 @@ class PatientRepo(PatientABC):
             with psycopg2.connect(**self.db_config) as conn:
                 with conn.cursor() as cur:
                     cur.execute(self.UPDATE_PATIENT, data)
-                    print(f'updated patient {patient.first_name.value} successfully')
+                    print(f"updated patient {patient.first_name.value} successfully")
         except Exception as err:
-            print(f'failed to update patient {patient.first_name.value} to patient table')
-            print(f'error: {err}')
+            print(
+                f"failed to update patient {patient.first_name.value} to patient table"
+            )
+            print(f"error: {err}")
 
     def remove_patient(self, patient_id: PatientID) -> None:
         try:
             with psycopg2.connect(**self.db_config) as conn:
                 with conn.cursor() as cur:
-                    cur.execute(self.DELETE_PATIENT , (str(patient_id.id),))
-                    print(f'deleted patient {patient_id.id} successfully')
+                    cur.execute(self.DELETE_PATIENT, (str(patient_id.id),))
+                    print(f"deleted patient {patient_id.id} successfully")
         except Exception as err:
-            print(f'failed to delete patient {patient_id.id} to patient table')
-            print(f'error: {err}')
+            print(f"failed to delete patient {patient_id.id} to patient table")
+            print(f"error: {err}")
 
     def select_all_patients(self) -> list[tuple[Any, ...]] | None:
         try:
@@ -114,15 +121,17 @@ class PatientRepo(PatientABC):
 
                     for row in cur.fetchall():
                         p_id, first_name, last_name, age = row
-                        patients.append(Patient(
-                            id=PatientID(id=p_id),
-                            first_name=Name(value=first_name),
-                            last_name=Name(value=last_name),
-                            age=Age(value=age)
-                        ))
+                        patients.append(
+                            Patient(
+                                id=PatientID(id=p_id),
+                                first_name=Name(value=first_name),
+                                last_name=Name(value=last_name),
+                                age=Age(value=age),
+                            )
+                        )
 
             return patients
 
         except Exception as err:
-            print(f'failed to select all patients from patient table')
-            print(f'error: {err}')
+            print("failed to select all patients from patient table")
+            print(f"error: {err}")

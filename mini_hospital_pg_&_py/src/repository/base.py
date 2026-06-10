@@ -13,6 +13,18 @@ class PatientABC(ABC):
     def find_by_patient_id(self, patient_id: int) -> Patient | None:
         pass
 
+    @abstractmethod
+    def select_all_patients(self) -> list[Patient]:
+        pass
+
+    @abstractmethod
+    def update_patient(self, patient: Patient) -> None:
+        pass
+
+    @abstractmethod
+    def remove_patient(self, patient_id: PatientID) -> None:
+        pass
+
 class QueueABC(ABC):
     @abstractmethod
     def save(self, patient: Patient) -> Queue:

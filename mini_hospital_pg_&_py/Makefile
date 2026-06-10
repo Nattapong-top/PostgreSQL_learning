@@ -16,4 +16,6 @@ reset:
 	$(DB) -c "DROP TABLE IF EXISTS queues, staff, patients CASCADE;"
 
 seed:
-	$(DB) < sql/001_create_table.sql
+
+py_run:
+	python src/main.py

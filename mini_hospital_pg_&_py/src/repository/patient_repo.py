@@ -1,5 +1,4 @@
 import psycopg2
-from typing import Any
 
 from domain.patient import Patient, PatientID, Name, Age
 from repository.base import PatientABC
@@ -31,7 +30,7 @@ class PatientRepo(PatientABC):
     """
 
     SELECT_ALL_PATIENTS = """
-    SELECT * FROM patient
+    SELECT * FROM patient ORDER BY id DESC LIMIT 5
     """
 
     def __init__(self, db_config: dict) -> None:
@@ -42,6 +41,7 @@ class PatientRepo(PatientABC):
         with psycopg2.connect(**self.db_config) as conn:
             with conn.cursor() as cur:
                 cur.execute(self.AUTO_CREATE_PATIENT_TABLE)
+                conn.commit()
                 print("created patient table successfully")
 
     def add_patient(self, patient: Patient) -> None:
@@ -57,8 +57,10 @@ class PatientRepo(PatientABC):
                             patient.age.value,
                         ),
                     )
+                    conn.commit()
                     print(f"added patient {patient.first_name.value} successfully")
         except Exception as err:
+            conn.rollback()
             print(f"failed to add patient {patient.first_name.value} to patient table")
             print(f"error: {err}")
 
@@ -95,7 +97,9 @@ class PatientRepo(PatientABC):
                 with conn.cursor() as cur:
                     cur.execute(self.UPDATE_PATIENT, data)
                     print(f"updated patient {patient.first_name.value} successfully")
+                    conn.commit()
         except Exception as err:
+            conn.rollback()
             print(
                 f"failed to update patient {patient.first_name.value} to patient table"
             )
@@ -106,12 +110,14 @@ class PatientRepo(PatientABC):
             with psycopg2.connect(**self.db_config) as conn:
                 with conn.cursor() as cur:
                     cur.execute(self.DELETE_PATIENT, (str(patient_id.id),))
+                    conn.commit()
                     print(f"deleted patient {patient_id.id} successfully")
         except Exception as err:
+            conn.rollback()
             print(f"failed to delete patient {patient_id.id} to patient table")
             print(f"error: {err}")
 
-    def select_all_patients(self) -> list[tuple[Any, ...]] | None:
+    def select_all_patients(self) -> list[Patient] | None:
         try:
             patients = []
             with psycopg2.connect(**self.db_config) as conn:
@@ -130,7 +136,7 @@ class PatientRepo(PatientABC):
                             )
                         )
 
-            return patients
+            return patients if patients else None
 
         except Exception as err:
             print("failed to select all patients from patient table")

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from domain.patient import Patient, PatientID
-from domain.queue import Queue
+from domain.queue import Queue, QueueID, QueueStatus
 
 
 class PatientABC(ABC):
@@ -28,7 +28,11 @@ class PatientABC(ABC):
 
 class QueueABC(ABC):
     @abstractmethod
-    def save(self, patient: Patient) -> Queue:
+    def add_queue(self, patient: Patient) -> None:
+        pass
+
+    @abstractmethod
+    def update_status(self, queue_id: QueueID,  status: QueueStatus) -> None:
         pass
 
     @abstractmethod
@@ -36,5 +40,9 @@ class QueueABC(ABC):
         pass
 
     @abstractmethod
-    def find_all(self) -> list[Queue]:
+    def find_by_queue_id(self, queue_id: QueueID) -> Patient | None:
+        pass
+
+    @abstractmethod
+    def find_all_queue(self) -> list[Queue] | None:
         pass

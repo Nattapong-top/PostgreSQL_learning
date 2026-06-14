@@ -7,14 +7,15 @@ import psycopg2
 
 from domain.patient import PatientID
 from domain.queue import Queue, QueueStatus, QueueID
+from repository.base import QueueABC
 
 
-class QueueRepo:
+class QueueRepo(QueueABC):
 
     AUTO_CREATE_QUEUE_TABLE = """
     CREATE TABLE IF NOT EXISTS queue (
-        id TEXT PRIMARY KEY,
-        patient_id TEXT,
+        id UUID PRIMARY KEY,
+        patient_id UUID,
         queue_number INTEGER,
         status TEXT NOT NULL,
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -106,7 +107,7 @@ class QueueRepo:
             id=QueueID(id=q_id),
             patient_id=PatientID(id=p_id),
             queue_number=q_number,
-            status=status,
+            status=QueueStatus(status),
             created_at=created_at,
         )
         return queue_entity
@@ -122,7 +123,6 @@ class QueueRepo:
                         return None
 
                     queue_entity = self._map_to_queue_entity(row_queue)
-                    conn.commit()
                     print(f"found queue: {queue_entity}")
                     return queue_entity
 

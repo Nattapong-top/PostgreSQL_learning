@@ -28,15 +28,15 @@ class PatientABC(ABC):
 
 class QueueABC(ABC):
     @abstractmethod
-    def add_queue(self, patient: Patient) -> None:
+    def add_queue(self, queue: Queue) -> None:
         pass
 
     @abstractmethod
-    def update_status(self, queue_id: QueueID, status: QueueStatus) -> None:
+    def update_status(self, queue: Queue, status: QueueStatus) -> None:
         pass
 
     @abstractmethod
-    def find_by_queue_id(self, queue_id: QueueID) -> Patient | None:
+    def find_by_queue_id(self, queue_id: QueueID) -> Queue | None:
         pass
 
     @abstractmethod

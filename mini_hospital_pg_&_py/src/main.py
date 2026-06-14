@@ -2,7 +2,6 @@ from datetime import datetime
 
 from domain.patient import Patient, Name, Age, PatientID
 from domain.queue import Queue, QueueStatus
-from repository import db_config
 from repository.db_config import DB_CONFIG
 from repository.patient_repo import PatientRepo
 from repository.queue_repo import QueueRepo
@@ -26,7 +25,8 @@ if all_patient:
             patient.id.id,
             patient.first_name.value,
             patient.last_name.value,
-            patient.age.value)
+            patient.age.value,
+        )
 
 if find_id_1:
     repo.update_patient(patient=find_id_1)
@@ -43,7 +43,8 @@ if all_patient:
             patient.id.id,
             patient.first_name.value,
             patient.last_name.value,
-            patient.age.value)
+            patient.age.value,
+        )
 
 
 patient_2 = Patient(
@@ -57,9 +58,20 @@ queue = Queue(
     patient_id=PatientID(id=patient_2.id.id),
     queue_number=1,
     status=QueueStatus.waiting,
-    created_at=datetime.now()
+    created_at=datetime.now(),
 )
 
 print(f"queue: {queue}")
 q_repo = QueueRepo(db_config=DB_CONFIG)
 q_repo.add_queue(queue)
+
+print(queue.id.id)
+
+find_q1 = q_repo.find_by_queue_id(queue.id)
+print(f"find_q1: {find_q1}")
+q_repo.update_status(queue=queue, status=QueueStatus.in_progress)
+update_q1 = q_repo.find_by_queue_id(queue.id)
+print(f"update_q1: {update_q1}")
+
+find_all = q_repo.find_all_queue()
+# print(f"find_all: {find_all}")

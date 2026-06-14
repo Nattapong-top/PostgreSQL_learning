@@ -23,6 +23,7 @@ py_run:
 check:
 	ruff check .
 	black --check .
+	mypy .
 
 fix:
 	ruff check . --fix

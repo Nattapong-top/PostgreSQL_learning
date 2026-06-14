@@ -23,6 +23,4 @@ class Queue(DomainModel):
     patient_id: PatientID
     queue_number: int = Field(..., gt=0)
     status: QueueStatus = QueueStatus.waiting
-    created_at: datetime = Field(
-        default_factory=datetime.now
-    )
+    created_at: datetime = Field(default_factory=datetime.now)

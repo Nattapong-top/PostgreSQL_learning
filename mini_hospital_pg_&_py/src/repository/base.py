@@ -14,7 +14,7 @@ class PatientABC(ABC):
         pass
 
     @abstractmethod
-    def select_all_patients(self) -> list[Patient]:
+    def select_all_patients(self) -> list[Patient] | None:
         pass
 
     @abstractmethod
@@ -32,11 +32,7 @@ class QueueABC(ABC):
         pass
 
     @abstractmethod
-    def update_status(self, queue_id: QueueID,  status: QueueStatus) -> None:
-        pass
-
-    @abstractmethod
-    def find_by_patient_id(self, patient_id: PatientID) -> Patient | None:
+    def update_status(self, queue_id: QueueID, status: QueueStatus) -> None:
         pass
 
     @abstractmethod

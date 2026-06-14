@@ -136,8 +136,9 @@ class PatientRepo(PatientABC):
                             )
                         )
 
-            return patients if patients else None
+            return patients
 
         except Exception as err:
             print("failed to select all patients from patient table")
             print(f"error: {err}")
+            return None
